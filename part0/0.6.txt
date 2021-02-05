@@ -1,0 +1,20 @@
+#Question:
+Create a diagram depicting the situation where the user creates a new note using the single page version of the app.
+#Answer:
+note over browser:
+user writes something into the text field
+browser excutes the input change event handler
+end note
+
+note over browser:
+user clicks save button
+browser excutes the click event handler
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: {"message":"note created"}
+
+note over browser:
+browser executes the event handler
+that renders new note to display
+end note
