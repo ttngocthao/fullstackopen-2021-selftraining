@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FilterForm from "./FilterForm";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
+import axios from "axios";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -14,6 +15,14 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newName, setNewName] = useState("");
   const [filterName, setFilterName] = useState("");
+
+  useEffect(() => {
+    axios.get("http://localhost:3001/persons").then((res) => {
+      // console.log(res);
+      setPersons(res.data);
+    });
+  }, []);
+
   const addNewPersonHandle = (e) => {
     e.preventDefault();
     if (persons.filter((person) => person.name === newName).length !== 0) {
