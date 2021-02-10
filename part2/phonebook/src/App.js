@@ -51,9 +51,22 @@ const App = () => {
     //call to server
     personsService.create(newPersonObj).then(returnedPerson=>{
       setPersons([...persons, returnedPerson ]);
+      setNotiMsg({
+          type:'success',
+          text:`Added ${returnedPerson.name}`
+        })
+      setTimeout(() => {
+        setNotiMsg({type:null,text:null})
+      }, 5000)
       resetForm()
     }).catch(error=>{
-      alert('error in creating new item')
+       setNotiMsg({
+          type:'fail',
+          text:`Failed to add ${newPersonObj.name}`
+        })
+      setTimeout(() => {
+        setNotiMsg({type:null,text:null})
+      }, 5000)
       setPersons([...persons])
       console.log(error)
     })
@@ -79,12 +92,21 @@ const App = () => {
     if(confirmRes){
       personsService.remove(personId).then(()=>{
         setPersons(persons.filter(p=>p.id!==personId))
-        setNotiMsg({
-          type:'remove',
+         setNotiMsg({
+          type:'success',
           text:`Information of ${persons.find(p=>p.id === personId).name} has been removed from server`
         })
+       setTimeout(() => {
+        setNotiMsg({type:null,text:null})
+      }, 5000)
       }).catch(error=>{
-        alert('error in deleting this item')
+        setNotiMsg({
+          type:'fail',
+          text:`Information of ${persons.find(p=>p.id === personId).name} has been removed from server`
+        })
+       setTimeout(() => {
+        setNotiMsg({type:null,text:null})
+      }, 5000)
         setPersons([...persons])
         console.log(error)
       })

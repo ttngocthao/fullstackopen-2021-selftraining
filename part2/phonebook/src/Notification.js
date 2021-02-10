@@ -23,7 +23,7 @@ const Notification = ({type,text}) => {
         fontSize:'20px'
     }
     return (
-        <div style={type==='add' ? {...addStyle} : {...removeStyle}}>
+        <div style={type==='success' ? {...addStyle} : {...removeStyle}}>
             {text}
         </div>
     )
