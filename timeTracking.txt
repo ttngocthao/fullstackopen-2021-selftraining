@@ -3,6 +3,11 @@ upto 2.10 - 60mins
 2.11 - 12 mins
 2.12 - 30 mins
 
+2.13 to 2.14 - 60mins
+//=========//
+to use env in react app, the api key need REACT_APP_ prefix
+//=========//
+
 
 
 
