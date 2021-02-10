@@ -7,12 +7,21 @@ upto 2.10 - 60mins
 //=========//
 to use env in react app, the api key need REACT_APP_ prefix
 //=========//
+
+
 2.15 to 2.18 - 75mins
 //=========//
 to filter data
 to update state when delete item with map func
 to handle error
+window.confirm
+debug method
 //=========//
 
+
+2.19 to 2.20 - 35mins
+//=========//
+use setTimeout
+//=========//
 
 
