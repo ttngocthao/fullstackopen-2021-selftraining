@@ -3,51 +3,96 @@ import FilterForm from "./FilterForm";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
 import axios from "axios";
+import personsService from './services/persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: "Arto Hellas", number: "040-123456" },
-    { name: "Ada Lovelace", number: "39-44-5323523" },
-    { name: "Dan Abramov", number: "12-43-234345" },
-    { name: "Mary Poppendieck", number: "39-23-6423122" },
-  ]);
-  const [filterList, setFilterList] = useState(persons);
+  const [persons, setPersons] = useState([]); 
   const [newNumber, setNewNumber] = useState("");
   const [newName, setNewName] = useState("");
   const [filterName, setFilterName] = useState("");
+  const [showAll,setShowAll] = useState(true)
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((res) => {
-      // console.log(res);
-      setPersons(res.data);
-    });
+    personsService.getAll().then(returnedPersons=>{
+      setPersons(returnedPersons)
+    }).catch(error=>{
+      alert('error in getting all persons')
+      console.log(error)
+    })
+   
   }, []);
+
+  const personsToShow = showAll ? persons : persons.filter(p=>p.name.toLowerCase().includes(filterName.toLowerCase()))
 
   const addNewPersonHandle = (e) => {
     e.preventDefault();
-    if (persons.filter((person) => person.name === newName).length !== 0) {
-      alert(`${newName} is already added to phonebook`);
-      setNewName("");
-      return;
+    const existPerson = persons.filter((person) => person.name === newName)[0]
+    
+    if (existPerson&&existPerson.name) {
+      const confirmMsg = `${existPerson.name} is already added to phonebook, replace the old number with a new one?`
+      const confirmRes = window.confirm(confirmMsg)
+      if(confirmRes){
+        //update the phone number
+        const updatedPersonObj = {...existPerson,number:newNumber}
+        personsService.update(existPerson.id,updatedPersonObj).then(returnedPerson=>{
+          setPersons(persons.map(p=>p.name!==existPerson.name ? p : returnedPerson))
+          resetForm()
+        }).catch(error=>{
+          alert('error in updating number')
+          setPersons(persons.filter(p=>p.name!==existPerson.name))
+          console.log(error)
+        })       
+       
+        return
+      }
     }
-    setPersons([...persons, { name: newName, number: newNumber }]);
-    setFilterList([...filterList, { name: newName, number: newNumber }]);
-    setNewName("");
-    setNewNumber("");
+    const newPersonObj = { name: newName, number: newNumber }
+    //call to server
+    personsService.create(newPersonObj).then(returnedPerson=>{
+      setPersons([...persons, returnedPerson ]);
+      resetForm()
+    }).catch(error=>{
+      alert('error in creating new item')
+      setPersons([...persons])
+      console.log(error)
+    })
+   
   };
+
   const nameChangeHandle = (e) => {
     setNewName(e.target.value);
   };
+
   const numberChangeHandle = (e) => {
     setNewNumber(e.target.value);
   };
+
   const filterChangeHandle = (e) => {
     setFilterName(e.target.value);
-    const newList = persons.filter((p) =>
-      p.name.toLowerCase().includes(e.target.value.toLowerCase())
-    );
-    setFilterList(newList.length !== 0 ? newList : persons);
-  };
+    setShowAll(false)
+   };
+
+  const deletePersonHandle =(personId)=>{
+    const confirmMsg =`Are you sure that you want to delete this person whose id is ${personId}?`
+    const confirmRes = window.confirm(confirmMsg)
+    if(confirmRes){
+      personsService.remove(personId).then(()=>{
+        setPersons(persons.filter(p=>p.id!==personId))
+      }).catch(error=>{
+        alert('error in deleting this item')
+        setPersons([...persons])
+        console.log(error)
+      })
+      
+    
+    }
+  }
+
+  const resetForm =()=>{
+     setNewName("");
+     setNewNumber("");
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -66,7 +111,7 @@ const App = () => {
       />
 
       <h2>Numbers</h2>
-      <Persons filterList={filterList} />
+      <Persons personsToShow={personsToShow} deletePersonHandle={deletePersonHandle}/>
     </div>
   );
 };

@@ -1,12 +1,12 @@
 import React from "react";
 
-const Persons = ({ filterList }) => {
+const Persons = ({ personsToShow,deletePersonHandle }) => {
   return (
     <>
-      {filterList.length !== 0 ? (
-        filterList.map((p, i) => (
+      {personsToShow.length !== 0 ? (
+        personsToShow.map((p, i) => (
           <p key={i}>
-            {p.name} - {p.number}
+            {p.name} - {p.number} <button onClick={()=>deletePersonHandle(p.id)}>Delete</button>
           </p>
         ))
       ) : (
