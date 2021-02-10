@@ -4,13 +4,14 @@ import PersonForm from "./PersonForm";
 import Persons from "./Persons";
 import axios from "axios";
 import personsService from './services/persons'
-
+import Notification from './Notification'
 const App = () => {
   const [persons, setPersons] = useState([]); 
   const [newNumber, setNewNumber] = useState("");
   const [newName, setNewName] = useState("");
   const [filterName, setFilterName] = useState("");
   const [showAll,setShowAll] = useState(true)
+  const [notiMsg,setNotiMsg]=useState({type:null,text:null})
 
   useEffect(() => {
     personsService.getAll().then(returnedPersons=>{
@@ -78,6 +79,10 @@ const App = () => {
     if(confirmRes){
       personsService.remove(personId).then(()=>{
         setPersons(persons.filter(p=>p.id!==personId))
+        setNotiMsg({
+          type:'remove',
+          text:`Information of ${persons.find(p=>p.id === personId).name} has been removed from server`
+        })
       }).catch(error=>{
         alert('error in deleting this item')
         setPersons([...persons])
@@ -93,9 +98,12 @@ const App = () => {
      setNewNumber("");
   }
 
+ 
+
   return (
     <div>
       <h2>Phonebook</h2>
+      {notiMsg && notiMsg.text && <Notification text={notiMsg.text} type={notiMsg.type}/>}
       <FilterForm
         filterChangeHandle={filterChangeHandle}
         filterName={filterName}
