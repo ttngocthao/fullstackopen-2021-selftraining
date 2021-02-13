@@ -33,7 +33,13 @@ use setTimeout
 middleware
 morgan package, config morgan, set customised message, log message 
 //==============//
+
+
 3.9 - 5mins
+3.10 to 3.11 - 25mins
 //==============//
 cant install heroku on mac by double click because of the system security. Right click -> open -> open -> can install it now
+to deploy backend to heroku, in the terminal run heroku login - heroku create - git push https://git.herokulink.here
+user command line heroku logs -t : to log keep an eye on the logs
+
 //==============//
