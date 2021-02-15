@@ -41,5 +41,16 @@ morgan package, config morgan, set customised message, log message
 cant install heroku on mac by double click because of the system security. Right click -> open -> open -> can install it now
 to deploy backend to heroku, in the terminal run heroku login - heroku create - git push https://git.herokulink.here
 user command line heroku logs -t : to log keep an eye on the logs
-
+Streamlining deploy of the frontend: experience wrong command lines, file path, and denied permission.
++ rm -rf build: remove build folder
++ cd ~/source_location: jump to source directory
++ cp -r build ~/destination_location: copy build folder to destination_location
++ sudo: give permission
++chsh -s /bin/zsh: may need to run this in Terminal to update computer account.
 //==============//
+
+
+
+3.13
+//==============//
+debug Node: in vs Code, choose Run - Start Debugging
