@@ -51,6 +51,16 @@ Streamlining deploy of the frontend: experience wrong command lines, file path, 
 
 
 
-3.13
+3.12 - 2h
 //==============//
 debug Node: in vs Code, choose Run - Start Debugging
+had to downgrade mongoose to get rid warning message
+had to call save method and find method inside of connect's callback function.
+//==============//
+
+
+
+3.13
+//==============//
+
+//==============//
