@@ -60,7 +60,17 @@ had to call save method and find method inside of connect's callback function.
 
 
 
-3.13
+3.13 to 3.14 - 1.5h
+//==============//
+to delete an item, have to call delete method on that item (not on the Model)
+findById - just need to pass the id
+findOne - if use id, need to pass _id
 //==============//
 
-//==============//
+
+3.15 to 3.18 - 1h
+//=============//
+have learned how to use vscode debug
+to use middleware to handle error, the app.use(errorHandler) must be just before app.listen...--> or it wont work
+//=============//
+
