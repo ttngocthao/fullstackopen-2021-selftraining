@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import FilterForm from "./FilterForm";
 import PersonForm from "./PersonForm";
 import Persons from "./Persons";
-import axios from "axios";
+
 import personsService from './services/persons'
 import Notification from './Notification'
 const App = () => {
@@ -34,14 +34,16 @@ const App = () => {
       const confirmRes = window.confirm(confirmMsg)
       if(confirmRes){
         //update the phone number
-        const updatedPersonObj = {...existPerson,number:newNumber}
+        const updatedPersonObj = {...existPerson,name:existPerson.name,number:newNumber}
         personsService.update(existPerson.id,updatedPersonObj).then(returnedPerson=>{
           setPersons(persons.map(p=>p.name!==existPerson.name ? p : returnedPerson))
           resetForm()
         }).catch(error=>{
-          alert('error in updating number')
-          setPersons(persons.filter(p=>p.name!==existPerson.name))
-          console.log(error)
+          console.log(error.response)
+          setNotiMsg({
+            type:'fail',
+            text:`Failed to update the info. ${error.response.data.error}`
+          })
         })       
        
         return
@@ -49,26 +51,29 @@ const App = () => {
     }
     const newPersonObj = { name: newName, number: newNumber }
     //call to server
-    personsService.create(newPersonObj).then(returnedPerson=>{
-      setPersons([...persons, returnedPerson ]);
-      setNotiMsg({
-          type:'success',
-          text:`Added ${returnedPerson.name}`
-        })
-      setTimeout(() => {
-        setNotiMsg({type:null,text:null})
-      }, 5000)
-      resetForm()
-    }).catch(error=>{
+    personsService.create(newPersonObj)
+      .then(returnedPerson=>{
+        setPersons([...persons, returnedPerson ]);
+        setNotiMsg({
+            type:'success',
+            text:`Added ${returnedPerson.name}`
+          })
+        setTimeout(() => {
+          setNotiMsg({type:null,text:null})
+        }, 5000)
+        resetForm()
+      })
+      .catch(error=>{
+        //console.log(error.response.data)
        setNotiMsg({
           type:'fail',
-          text:`Failed to add ${newPersonObj.name}`
+          text:`Failed to add ${newPersonObj.name}. ${error.response.data.error}`
         })
       setTimeout(() => {
         setNotiMsg({type:null,text:null})
       }, 5000)
       setPersons([...persons])
-      console.log(error)
+      
     })
    
   };

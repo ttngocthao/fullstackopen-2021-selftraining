@@ -8,7 +8,14 @@ const getAll =()=>{
 
 const create =(newPersonObj)=>{
     const req = axios.post(baseUrl,newPersonObj)
-    return req.then(res=>res.data)
+  
+    return req.then(res=>{
+        if(res.data){
+            return res.data
+        }else{
+          return  res //to access error message
+        }
+        })
 }
 
 const remove = (id)=>{
