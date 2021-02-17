@@ -77,4 +77,4 @@ to use middleware to handle error, the app.use(errorHandler) must be just before
 3.19 to 3.21
 //=============//
 use mongoose plugin, called mongoose-unique-validator to apply on schema for unique value.
-use command line: heroku config:set MONGODBURL=path-to-database to define variable in production
+use command line: heroku config:set MONGODBURL='path-to-database' to define variable in production

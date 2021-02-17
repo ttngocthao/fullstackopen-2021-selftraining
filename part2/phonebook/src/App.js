@@ -44,6 +44,9 @@ const App = () => {
             type:'fail',
             text:`Failed to update the info. ${error.response.data.error}`
           })
+          setTimeout(() => {
+          setNotiMsg({type:null,text:null})
+        }, 5000)
         })       
        
         return
