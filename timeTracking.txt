@@ -74,7 +74,12 @@ have learned how to use vscode debug
 to use middleware to handle error, the app.use(errorHandler) must be just before app.listen...--> or it wont work
 //=============//
 
-3.19 to 3.21
+3.19 to 3.21 - 2h
 //=============//
 use mongoose plugin, called mongoose-unique-validator to apply on schema for unique value.
 use command line: heroku config:set MONGODBURL='path-to-database' to define variable in production
+//============//
+
+3.22 - 1h
+//============//
+eslint via npm package or vs code extension. added eslint-ignore file.
